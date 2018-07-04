@@ -27,20 +27,20 @@ NUMBER_OF_LEG_SEGMENTS: 4
 
 # Define Initial Coxa Offsets in Radians ['RR', 'RM', 'RF', 'LR', 'LM', 'LF']
 # IK is solved in local space currently, hence the reason right and left have same angle offsets.
-INIT_COXA_ANGLE: [!degrees 30, !degrees 90, !degrees 150, !degrees -30, !degrees -90, !degrees -150]
+INIT_COXA_ANGLE: [!degrees 30, !degrees 90, !degrees 150, !degrees -150, !degrees -90, !degrees -30]
 
 # Define distance in meters from coxa joint to the center ['RR', 'RM', 'RF', 'LR', 'LM', 'LF']
 # IK is solved in local space currently, hence the reason right and left have same distance values
-COXA_TO_CENTER_X: [0.15588, 0.0, -0.15588, 0.15588, 0.0, -0.15588]
-COXA_TO_CENTER_Y: [0.09, 0.18, 0.09, 0.09, 0.18, 0.09]
+COXA_TO_CENTER_X: [0.15588, 0.0, -0.15588, -0.15588, 0.0, 0.15588]
+COXA_TO_CENTER_Y: [0.09, 0.18, 0.09, -0.09, -0.18, -0.09]
 
 # Define Start Position Of Feet in meters from the coxa joint ['RR', 'RM', 'RF', 'LR', 'LM', 'LF']
 # Middle Legs is coxa axis to foot in meters
 # math to find positions of front and back legs POS_Y = Middle leg start position * cos(45 degrees) (0.707)
 # math to find positions of front and back legs POS_X = Middle leg start position * sin(45 degrees) (0.707)
 # IK is solved in local space currently, hence the reason right and left have same distance values
-INIT_FOOT_POS_X: [0.20601878, 0.0, -0.20601878, 0.20601878, 0.0, -0.20601878]
-INIT_FOOT_POS_Y: [0.118945, 0.23789, 0.118945, 0.118945, 0.23789, 0.118945]
+INIT_FOOT_POS_X: [0.20601878, 0.0, -0.20601878, -0.20601878, 0.0, 0.20601878]
+INIT_FOOT_POS_Y: [0.118945, 0.23789, 0.118945, -0.118945, -0.23789, -0.118945]
 INIT_FOOT_POS_Z: [0.321, 0.321, 0.321, 0.321, 0.321, 0.321]
 
 
