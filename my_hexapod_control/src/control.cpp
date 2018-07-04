@@ -92,7 +92,7 @@ void Control::publishJointStates( const hexapod_msgs::LegsJoints &legs, int &cyc
   if ( cycle_period_ == 1 )
   {
 
-     for ( int leg_index = 0; leg_index < NUMBER_OF_LEGS; leg_index++ )
+ /*    for ( int leg_index = 0; leg_index < NUMBER_OF_LEGS; leg_index++ )
   {
 
      if (  cycle_leg_number_[leg_index] == 0)
@@ -111,7 +111,7 @@ void Control::publishJointStates( const hexapod_msgs::LegsJoints &legs, int &cyc
       srv.request.duration.sec = 3;
       force_client.call(srv);
     }
-  }
+  }*/
     ros::Duration(1).sleep(); 
   }
     
@@ -120,9 +120,35 @@ void Control::publishJointStates( const hexapod_msgs::LegsJoints &legs, int &cyc
 //订阅发布的速度信息
 void Control::cmd_velCallback( const geometry_msgs::TwistConstPtr &cmd_vel_msg )
 {
+  if (cmd_vel_msg->linear.x>0.1||cmd_vel_msg->linear.x<-0.1)
+  {
+    ROS_FATAL("The linear.x exceeds the upper limit, set it to max: 0.1.");
+    cmd_vel_incoming_.linear.x = (cmd_vel_msg->linear.x > 0 ? 0.1 : -0.1);
+  }
+  else
+  {
     cmd_vel_incoming_.linear.x = cmd_vel_msg->linear.x;
+  }
+  
+    if (cmd_vel_msg->linear.y>0.1|| cmd_vel_msg->linear.y<-0.1)
+  {
+    ROS_FATAL("The linear.y exceeds the upper limit, set it to max: 0.1.");
+    cmd_vel_incoming_.linear.y = (cmd_vel_msg->linear.y > 0 ? 0.1 : -0.1);;
+  }
+  else
+  {
     cmd_vel_incoming_.linear.y = cmd_vel_msg->linear.y;
+  }
+  
+  if (cmd_vel_msg->angular.z>0.2 || cmd_vel_msg->angular.z<-0.2)
+  {
+    ROS_FATAL("The angular.z exceeds the upper limit, set it to max: 0.2.");
+    cmd_vel_incoming_.angular.z = (cmd_vel_msg->angular.z > 0 ? 0.2 : -0.2);;
+  }
+  else
+  {
     cmd_vel_incoming_.angular.z = cmd_vel_msg->angular.z;
+  }
 }
 
 //速度转化成歩幅

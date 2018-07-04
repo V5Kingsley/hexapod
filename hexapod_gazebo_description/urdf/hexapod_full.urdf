@@ -1,0 +1,599 @@
+<?xml version="1.0"?>
+
+<robot name="hexapod">
+
+<link name="base_link">
+  <visual>
+   <geometry>
+      <box size="0.01 0.01 0.01"/>
+   </geometry>
+   <material name="black">
+     <color rgba="0 0 0 100"/>
+   </material>
+  </visual>
+</link>
+
+<link name="body">
+  <visual>
+   <geometry>
+     <cylinder length="0.1" radius="0.18"/>
+   </geometry>
+   <material name="black">
+     <color rgba="0 0 0 100"/>
+   </material>
+  </visual>
+</link>
+
+<joint name="body" type="fixed">
+  <axis xyz="0 0 1"/>
+  <parent link="base_link"/>
+  <child link="body"/>
+  <origin rpy="0 0 0" xyz="0 0 0.5"/>
+</joint>
+
+
+<!--first-leg-->
+<link name="bridge1">
+  <visual>
+    <origin xyz="0 0 0.0465" rpy="0 0 0"/>
+    <geometry>
+      <cylinder length="0.093" radius="0.01"/>
+    </geometry>
+    <material name="white">
+      <color rgba="255 255 255 1"/>
+    </material>
+  </visual>
+</link>
+<joint name="bridge1" type="fixed">
+  <axis xyz="0 0 1"/>
+  <parent link="body"/>
+  <child link="bridge1"/>
+  <origin rpy="0 1.57075 0" xyz="0.18 0 0"/>
+</joint>
+      
+<link name="leg1_roll">
+  <visual>
+    <origin xyz="-0.072445 0 0" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.14489 0.04 0.04"/>
+    </geometry>
+    <material name="blue">
+      <color rgba="0 0 255 1"/>
+    </material>
+  </visual>
+</link>
+<joint name="leg1_roll" type="revolute">
+  <axis xyz="0 0 1"/>
+  <limit effort="300" lower="-0.78540" upper="0.78540" velocity="1"/>
+  <parent link="bridge1"/>
+  <child link="leg1_roll"/>
+  <origin rpy="0 1.57075 0" xyz="0 0 0.093"/>
+</joint>
+
+<link name="leg1_pitch1">
+  <visual>
+    <origin xyz="-0.082 0 0" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.164 0.04 0.04"/>
+    </geometry>
+    <material name="green">
+      <color rgba="0 128 0 1"/>
+    </material>
+  </visual>
+</link>
+<joint name="leg1_pitch1" type="revolute">
+  <axis xyz="0 1 0"/>
+  <limit effort="300" lower="-0.78540" upper="0.78540" velocity="1"/>
+  <parent link="leg1_roll"/>
+  <child link="leg1_pitch1"/>
+  <origin rpy="0 0.78540 0" xyz="-0.14489 0 0"/>
+</joint>
+
+<link name="leg1_pitch2">
+  <visual>
+    <origin xyz="-0.0785 0 0" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.157 0.04 0.04"/>
+    </geometry>
+    <material name="black">
+      <color rgba="0 0 0 1"/>
+    </material>
+  </visual>
+</link>
+<joint name="leg1_pitch2" type="revolute">
+  <axis xyz="0 1 0"/>
+  <limit effort="300" lower="-0.78540" upper="0.78540" velocity="1"/>
+  <parent link="leg1_pitch1"/>
+  <child link="leg1_pitch2"/>
+  <origin rpy="0 0.78540 0" xyz="-0.164 0 0"/>
+</joint>
+
+<link name="stick1">
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <cylinder length="0.01" radius="0.05"/>
+    </geometry>
+    <material name="yellow">
+      <color rgba="255 255 0 1"/>
+    </material>
+  </visual>
+</link>
+<joint name="stick1" type="fixed">
+  <axis xyz="0 0 1"/>
+  <parent link="leg1_pitch2"/>
+  <child link="stick1"/>
+  <origin rpy="0 1.57075 0" xyz="-0.157 0 0"/>
+</joint>
+
+
+
+<!--second-leg-->
+<link name="bridge2">
+  <visual>
+    <origin xyz="0 0 0.0465" rpy="0 0 0"/>
+    <geometry>
+      <cylinder length="0.093" radius="0.01"/>
+    </geometry>
+    <material name="white">
+      <color rgba="255 255 255 1"/>
+    </material>
+  </visual>
+</link>
+<joint name="bridge2" type="fixed">
+  <axis xyz="0 0 1"/>
+  <parent link="body"/>
+  <child link="bridge2"/>
+  <origin rpy="-1.04720 1.57075 0" xyz="0.09 0.15589 0"/>
+</joint>
+      
+<link name="leg2_roll">
+  <visual>
+    <origin xyz="-0.072445 0 0" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.14489 0.04 0.04"/>
+    </geometry>
+    <material name="blue">
+      <color rgba="0 0 255 1"/>
+    </material>
+  </visual>
+</link>
+<joint name="leg2_roll" type="revolute">
+  <axis xyz="0 0 1"/>
+  <limit effort="300" lower="-0.78540" upper="0.78540" velocity="1"/>
+  <parent link="bridge2"/>
+  <child link="leg2_roll"/>
+  <origin rpy="0 1.57075 0" xyz="0 0 0.093"/>
+</joint>
+
+<link name="leg2_pitch1">
+  <visual>
+    <origin xyz="-0.082 0 0" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.164 0.04 0.04"/>
+    </geometry>
+    <material name="green">
+      <color rgba="0 128 0 1"/>
+    </material>
+  </visual>
+</link>
+<joint name="leg2_pitch1" type="revolute">
+  <axis xyz="0 1 0"/>
+  <limit effort="300" lower="-0.78540" upper="0.78540" velocity="1"/>
+  <parent link="leg2_roll"/>
+  <child link="leg2_pitch1"/>
+  <origin rpy="0 0.78540 0" xyz="-0.14489 0 0"/>
+</joint>
+
+<link name="leg2_pitch2">
+  <visual>
+    <origin xyz="-0.0785 0 0" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.157 0.04 0.04"/>
+    </geometry>
+    <material name="black">
+      <color rgba="0 0 0 1"/>
+    </material>
+  </visual>
+</link>
+<joint name="leg2_pitch2" type="revolute">
+  <axis xyz="0 1 0"/>
+  <limit effort="300" lower="-0.78540" upper="0.78540" velocity="1"/>
+  <parent link="leg2_pitch1"/>
+  <child link="leg2_pitch2"/>
+  <origin rpy="0 0.78540 0" xyz="-0.164 0 0"/>
+</joint>
+<link name="stick2">
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <cylinder length="0.01" radius="0.05"/>
+    </geometry>
+    <material name="yellow">
+      <color rgba="255 255 0 1"/>
+    </material>
+  </visual>
+</link>
+<joint name="stick2" type="fixed">
+  <axis xyz="0 0 1"/>
+  <parent link="leg2_pitch2"/>
+  <child link="stick2"/>
+  <origin rpy="0 1.57075 0" xyz="-0.157 0 0"/>
+</joint>
+
+
+<!--third-leg-->
+<link name="bridge3">
+  <visual>
+    <origin xyz="0 0 0.0465" rpy="0 0 0"/>
+    <geometry>
+      <cylinder length="0.093" radius="0.01"/>
+    </geometry>
+    <material name="white">
+      <color rgba="255 255 255 1"/>
+    </material>
+  </visual>
+</link>
+<joint name="bridge3" type="fixed">
+  <axis xyz="0 0 1"/>
+  <parent link="body"/>
+  <child link="bridge3"/>
+  <origin rpy="-2.09440 1.57075 0" xyz="-0.09 0.15589 0"/>
+</joint>
+      
+<link name="leg3_roll">
+  <visual>
+    <origin xyz="-0.072445 0 0" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.14489 0.04 0.04"/>
+    </geometry>
+    <material name="blue">
+      <color rgba="0 0 255 1"/>
+    </material>
+  </visual>
+</link>
+<joint name="leg3_roll" type="revolute">
+  <axis xyz="0 0 1"/>
+  <limit effort="300" lower="-0.78540" upper="0.78540" velocity="1"/>
+  <parent link="bridge3"/>
+  <child link="leg3_roll"/>
+  <origin rpy="0 1.57075 0" xyz="0 0 0.093"/>
+</joint>
+
+<link name="leg3_pitch1">
+  <visual>
+    <origin xyz="-0.082 0 0" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.164 0.04 0.04"/>
+    </geometry>
+    <material name="green">
+      <color rgba="0 128 0 1"/>
+    </material>
+  </visual>
+</link>
+<joint name="leg3_pitch1" type="revolute">
+  <axis xyz="0 1 0"/>
+  <limit effort="300" lower="-0.78540" upper="0.78540" velocity="1"/>
+  <parent link="leg3_roll"/>
+  <child link="leg3_pitch1"/>
+  <origin rpy="0 0.78540 0" xyz="-0.14489 0 0"/>
+</joint>
+
+<link name="leg3_pitch2">
+  <visual>
+    <origin xyz="-0.0785 0 0" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.157 0.04 0.04"/>
+    </geometry>
+    <material name="black">
+      <color rgba="0 0 0 1"/>
+    </material>
+  </visual>
+</link>
+<joint name="leg3_pitch2" type="revolute">
+  <axis xyz="0 1 0"/>
+  <limit effort="300" lower="-0.78540" upper="0.78540" velocity="1"/>
+  <parent link="leg3_pitch1"/>
+  <child link="leg3_pitch2"/>
+  <origin rpy="0 0.78540 0" xyz="-0.164 0 0"/>
+</joint>
+<link name="stick3">
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <cylinder length="0.01" radius="0.05"/>
+    </geometry>
+    <material name="yellow">
+      <color rgba="255 255 0 1"/>
+    </material>
+  </visual>
+</link>
+<joint name="stick3" type="fixed">
+  <axis xyz="0 0 1"/>
+  <parent link="leg3_pitch2"/>
+  <child link="stick3"/>
+  <origin rpy="0 1.57075 0" xyz="-0.157 0 0"/>
+</joint>
+
+
+<!--4th-leg-->
+<link name="bridge4">
+  <visual>
+    <origin xyz="0 0 0.0465" rpy="0 0 0"/>
+    <geometry>
+      <cylinder length="0.093" radius="0.01"/>
+    </geometry>
+    <material name="white">
+      <color rgba="255 255 255 1"/>
+    </material>
+  </visual>
+</link>
+<joint name="bridge4" type="fixed">
+  <axis xyz="0 0 1"/>
+  <parent link="body"/>
+  <child link="bridge4"/>
+  <origin rpy="-3.14159 1.57075 0" xyz="-0.18 0 0"/>
+</joint>
+      
+<link name="leg4_roll">
+  <visual>
+    <origin xyz="-0.072445 0 0" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.14489 0.04 0.04"/>
+    </geometry>
+    <material name="blue">
+      <color rgba="0 0 255 1"/>
+    </material>
+  </visual>
+</link>
+<joint name="leg4_roll" type="revolute">
+  <axis xyz="0 0 1"/>
+  <limit effort="300" lower="-0.78540" upper="0.78540" velocity="1"/>
+  <parent link="bridge4"/>
+  <child link="leg4_roll"/>
+  <origin rpy="0 1.57075 0" xyz="0 0 0.093"/>
+</joint>
+
+<link name="leg4_pitch1">
+  <visual>
+    <origin xyz="-0.082 0 0" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.164 0.04 0.04"/>
+    </geometry>
+    <material name="green">
+      <color rgba="0 128 0 1"/>
+    </material>
+  </visual>
+</link>
+<joint name="leg4_pitch1" type="revolute">
+  <axis xyz="0 1 0"/>
+  <limit effort="300" lower="-0.78540" upper="0.78540" velocity="1"/>
+  <parent link="leg4_roll"/>
+  <child link="leg4_pitch1"/>
+  <origin rpy="0 0.78540 0" xyz="-0.14489 0 0"/>
+</joint>
+
+<link name="leg4_pitch2">
+  <visual>
+    <origin xyz="-0.0785 0 0" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.157 0.04 0.04"/>
+    </geometry>
+    <material name="black">
+      <color rgba="0 0 0 1"/>
+    </material>
+  </visual>
+</link>
+<joint name="leg4_pitch2" type="revolute">
+  <axis xyz="0 1 0"/>
+  <limit effort="300" lower="-0.78540" upper="0.78540" velocity="1"/>
+  <parent link="leg4_pitch1"/>
+  <child link="leg4_pitch2"/>
+  <origin rpy="0 0.78540 0" xyz="-0.164 0 0"/>
+</joint>
+<link name="stick4">
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <cylinder length="0.01" radius="0.05"/>
+    </geometry>
+    <material name="yellow">
+      <color rgba="255 255 0 1"/>
+    </material>
+  </visual>
+</link>
+<joint name="stick4" type="fixed">
+  <axis xyz="0 0 1"/>
+  <parent link="leg4_pitch2"/>
+  <child link="stick4"/>
+  <origin rpy="0 1.57075 0" xyz="-0.157 0 0"/>
+</joint>
+
+<!--5th-leg-->
+<link name="bridge5">
+  <visual>
+    <origin xyz="0 0 0.0465" rpy="0 0 0"/>
+    <geometry>
+      <cylinder length="0.093" radius="0.01"/>
+    </geometry>
+    <material name="white">
+      <color rgba="255 255 255 1"/>
+    </material>
+  </visual>
+</link>
+<joint name="bridge5" type="fixed">
+  <axis xyz="0 0 1"/>
+  <parent link="body"/>
+  <child link="bridge5"/>
+  <origin rpy="2.09440 1.57075 0" xyz="-0.09 -0.15589 0"/>
+</joint>
+      
+<link name="leg5_roll">
+  <visual>
+    <origin xyz="-0.072445 0 0" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.14489 0.04 0.04"/>
+    </geometry>
+    <material name="blue">
+      <color rgba="0 0 255 1"/>
+    </material>
+  </visual>
+</link>
+<joint name="leg5_roll" type="revolute">
+  <axis xyz="0 0 1"/>
+  <limit effort="300" lower="-0.78540" upper="0.78540" velocity="1"/>
+  <parent link="bridge5"/>
+  <child link="leg5_roll"/>
+  <origin rpy="0 1.57075 0" xyz="0 0 0.093"/>
+</joint>
+
+<link name="leg5_pitch1">
+  <visual>
+    <origin xyz="-0.082 0 0" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.164 0.04 0.04"/>
+    </geometry>
+    <material name="green">
+      <color rgba="0 128 0 1"/>
+    </material>
+  </visual>
+</link>
+<joint name="leg5_pitch1" type="revolute">
+  <axis xyz="0 1 0"/>
+  <limit effort="300" lower="-0.78540" upper="0.78540" velocity="1"/>
+  <parent link="leg5_roll"/>
+  <child link="leg5_pitch1"/>
+  <origin rpy="0 0.78540 0" xyz="-0.14489 0 0"/>
+</joint>
+
+<link name="leg5_pitch2">
+  <visual>
+    <origin xyz="-0.0785 0 0" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.157 0.04 0.04"/>
+    </geometry>
+    <material name="black">
+      <color rgba="0 0 0 1"/>
+    </material>
+  </visual>
+</link>
+<joint name="leg5_pitch2" type="revolute">
+  <axis xyz="0 1 0"/>
+  <limit effort="300" lower="-0.78540" upper="0.78540" velocity="1"/>
+  <parent link="leg5_pitch1"/>
+  <child link="leg5_pitch2"/>
+  <origin rpy="0 0.78540 0" xyz="-0.164 0 0"/>
+</joint>
+<link name="stick5">
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <cylinder length="0.01" radius="0.05"/>
+    </geometry>
+    <material name="yellow">
+      <color rgba="255 255 0 1"/>
+    </material>
+  </visual>
+</link>
+<joint name="stick5" type="fixed">
+  <axis xyz="0 0 1"/>
+  <parent link="leg5_pitch2"/>
+  <child link="stick5"/>
+  <origin rpy="0 1.57075 0" xyz="-0.157 0 0"/>
+</joint>
+
+<!--6th-leg-->
+<link name="bridge6">
+  <visual>
+    <origin xyz="0 0 0.0465" rpy="0 0 0"/>
+    <geometry>
+      <cylinder length="0.093" radius="0.01"/>
+    </geometry>
+    <material name="white">
+      <color rgba="255 255 255 1"/>
+    </material>
+  </visual>
+</link>
+<joint name="bridge6" type="fixed">
+  <axis xyz="0 0 1"/>
+  <parent link="body"/>
+  <child link="bridge6"/>
+  <origin rpy="1.04720 1.57075 0" xyz="0.09 -0.15589 0"/>
+</joint>
+      
+<link name="leg6_roll">
+  <visual>
+    <origin xyz="-0.072445 0 0" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.14489 0.04 0.04"/>
+    </geometry>
+    <material name="blue">
+      <color rgba="0 0 255 1"/>
+    </material>
+  </visual>
+</link>
+<joint name="leg6_roll" type="revolute">
+  <axis xyz="0 0 1"/>
+  <limit effort="300" lower="-0.78540" upper="0.78540" velocity="1"/>
+  <parent link="bridge6"/>
+  <child link="leg6_roll"/>
+  <origin rpy="0 1.57075 0" xyz="0 0 0.093"/>
+</joint>
+
+<link name="leg6_pitch1">
+  <visual>
+    <origin xyz="-0.082 0 0" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.164 0.04 0.04"/>
+    </geometry>
+    <material name="green">
+      <color rgba="0 128 0 1"/>
+    </material>
+  </visual>
+</link>
+<joint name="leg6_pitch1" type="revolute">
+  <axis xyz="0 1 0"/>
+  <limit effort="300" lower="-0.78540" upper="0.78540" velocity="1"/>
+  <parent link="leg6_roll"/>
+  <child link="leg6_pitch1"/>
+  <origin rpy="0 0.78540 0" xyz="-0.14489 0 0"/>
+</joint>
+
+<link name="leg6_pitch2">
+  <visual>
+    <origin xyz="-0.0785 0 0" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.157 0.04 0.04"/>
+    </geometry>
+    <material name="black">
+      <color rgba="0 0 0 1"/>
+    </material>
+  </visual>
+</link>
+<joint name="leg6_pitch2" type="revolute">
+  <axis xyz="0 1 0"/>
+  <limit effort="300" lower="-0.78540" upper="0.78540" velocity="1"/>
+  <parent link="leg6_pitch1"/>
+  <child link="leg6_pitch2"/>
+  <origin rpy="0 0.78540 0" xyz="-0.164 0 0"/>
+</joint>
+<link name="stick6">
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <cylinder length="0.01" radius="0.05"/>
+    </geometry>
+    <material name="yellow">
+      <color rgba="255 255 0 1"/>
+    </material>
+  </visual>
+</link>
+<joint name="stick6" type="fixed">
+  <axis xyz="0 0 1"/>
+  <parent link="leg6_pitch2"/>
+  <child link="stick6"/>
+  <origin rpy="0 1.57075 0" xyz="-0.157 0 0"/>
+</joint>
+
+
+</robot>

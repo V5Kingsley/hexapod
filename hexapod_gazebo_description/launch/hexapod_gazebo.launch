@@ -16,6 +16,10 @@
  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
     output="screen" ns="/hexapod" args="joint_state_controller   leg1_roll_joint_position_controller leg1_pitch1_joint_position_controller leg1_pitch2_joint_position_controller leg1_pitch3_joint_position_controller leg2_roll_joint_position_controller leg2_pitch1_joint_position_controller leg2_pitch2_joint_position_controller leg2_pitch3_joint_position_controller leg3_roll_joint_position_controller leg3_pitch1_joint_position_controller leg3_pitch2_joint_position_controller leg3_pitch3_joint_position_controller leg4_roll_joint_position_controller leg4_pitch1_joint_position_controller leg4_pitch2_joint_position_controller leg4_pitch3_joint_position_controller leg5_roll_joint_position_controller leg5_pitch1_joint_position_controller leg5_pitch2_joint_position_controller leg5_pitch3_joint_position_controller  leg6_roll_joint_position_controller leg6_pitch1_joint_position_controller leg6_pitch2_joint_position_controller leg6_pitch3_joint_position_controller"/>
 
+<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+    <param name="publish_frequency" type="double" value="5.0"/>
+  </node>
+
 
 
 

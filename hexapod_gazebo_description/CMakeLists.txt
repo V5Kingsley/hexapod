@@ -198,5 +198,4 @@ include_directories(
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
 
-add_executable(hexapod_test src/hexapod_test.cpp)
-target_link_libraries(hexapod_test ${catkin_LIBRARIES})
+

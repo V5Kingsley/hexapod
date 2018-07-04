@@ -35,7 +35,7 @@ void IK::calculateIK(const hexapod_msgs::FeetPositions& feet, hexapod_msgs::Legs
       sign=1.0;
     }
     else{
-      sign=-1.0;
+      sign=1.0;
     }
     
     //机体旋转角度，angular.z

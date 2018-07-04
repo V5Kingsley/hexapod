@@ -25,17 +25,17 @@ Trig IK::getSinCos( double angle_rad )
   return body_trig;
 }
 
-void IK::calculateIK(const hexapod_msgs::FeetPositions& feet, const hexapod_msgs::Pose& body, hexapod_msgs::LegsJoints* legs)
+void IK::calculateIK(const hexapod_msgs::FeetPositions& feet, hexapod_msgs::LegsJoints* legs)
 {
   double sign=-1.0;
   for( int leg_index=0; leg_index<NUMBER_OF_LEGS; leg_index++ )
   {
-    if( leg_index<=2 )
+    if( leg_index<=2 ) 
     {
       sign=1.0;
     }
     else{
-      sign=-1.0;
+      sign=1.0;
     }
     
     //机体旋转角度，angular.z
@@ -55,7 +55,7 @@ void IK::calculateIK(const hexapod_msgs::FeetPositions& feet, const hexapod_msgs
     double feet_pos_z =  INIT_FOOT_POS_Z[leg_index] - TARSUS_LENGTH - feet.foot[leg_index].position.z ;
     
     double femur_to_tarsus = sqrt( pow( feet_pos_x, 2 ) + pow( feet_pos_y, 2 ) ) - COXA_LENGTH;
-    
+     
     if( std::abs( femur_to_tarsus ) > ( FEMUR_LENGTH + TIBIA_LENGTH ) )
        {
             ROS_FATAL("IK Solver cannot solve a foot position that is not within leg reach!!!");

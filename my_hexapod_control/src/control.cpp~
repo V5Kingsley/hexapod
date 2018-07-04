@@ -92,7 +92,7 @@ void Control::publishJointStates( const hexapod_msgs::LegsJoints &legs, int &cyc
   if ( cycle_period_ == 1 )
   {
 
-     for ( int leg_index = 0; leg_index < NUMBER_OF_LEGS; leg_index++ )
+ /*    for ( int leg_index = 0; leg_index < NUMBER_OF_LEGS; leg_index++ )
   {
 
      if (  cycle_leg_number_[leg_index] == 0)
@@ -111,7 +111,7 @@ void Control::publishJointStates( const hexapod_msgs::LegsJoints &legs, int &cyc
       srv.request.duration.sec = 3;
       force_client.call(srv);
     }
-  }
+  }*/
     ros::Duration(1).sleep(); 
   }
     

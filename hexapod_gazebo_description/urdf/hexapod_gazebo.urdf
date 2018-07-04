@@ -118,7 +118,7 @@
     </geometry>
   </collision>
 </link>
-  <gazebo reference="body">
+  <gazebo reference="leg1_roll">
     <material>Gazebo/Blue</material>
   </gazebo>
 <joint name="leg1_roll" type="revolute">

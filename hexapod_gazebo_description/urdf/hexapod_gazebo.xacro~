@@ -496,9 +496,9 @@
 <xacro:leg leg="leg1" r="0" p="0" ry="${M_PI/6}" x="${bodyradius/2*gen3}" y="${bodyradius/2}"/>
 <xacro:leg leg="leg2" r="0" p="0" ry="${M_PI/2}" x="0" y="${bodyradius}"/>
 <xacro:leg leg="leg3" r="0" p="0" ry="${M_PI/6*5}" x="-${bodyradius/2*gen3}" y="${bodyradius/2}"/>
-<xacro:leg leg="leg6" r="0" p="0" ry="-${M_PI/6*5}" x="-${bodyradius/2*gen3}" y="-${bodyradius/2}"/>
+<xacro:leg leg="leg4" r="0" p="0" ry="-${M_PI/6*5}" x="-${bodyradius/2*gen3}" y="-${bodyradius/2}"/>
 <xacro:leg leg="leg5" r="0" p="0" ry="-${M_PI/2}" x="0" y="-${bodyradius}"/>
-<xacro:leg leg="leg4" r="0" p="0" ry="-${M_PI/6}" x="${bodyradius/2*gen3}" y="-${bodyradius/2}"/>
+<xacro:leg leg="leg6" r="0" p="0" ry="-${M_PI/6}" x="${bodyradius/2*gen3}" y="-${bodyradius/2}"/>
 
 
 
