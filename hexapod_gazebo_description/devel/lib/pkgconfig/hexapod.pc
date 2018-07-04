@@ -1,0 +1,8 @@
+prefix=/home/sun/catkin_ws/src/hexapod/devel
+
+Name: hexapod
+Description: Description of hexapod
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/sun/catkin_ws/src/hexapod/devel/lib 
+Requires: 

@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/sun/catkin_ws/src/hexapod/devel/setup.sh

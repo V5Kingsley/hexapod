@@ -1,0 +1,18 @@
+#include <ros/ros.h>
+#include <std_msgs/Float64.h>
+
+int main(int argc, char**argv)
+{
+  ros::init(argc, argv, "test");
+  ros::NodeHandle n;
+  ros::Publisher leg1=n.advertise<std_msgs::Float64>("/hexapod/leg1_roll_joint_position_controller/command",1);
+  ros::Duration wait(0.5);
+  std_msgs::Float64 leg1_roll=0.5;
+  while(ros::ok())
+  {
+
+    leg1.publish(leg1_roll);
+    wait.sleep();
+  }
+  
+}

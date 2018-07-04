@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+  <arg name="config" default="my_hexapod"/>
+  <rosparam command="load" file="$(find my_hexapod_control)/params/$(arg config).yaml"/>
+  <node name="my_hexapod_controller" pkg="my_hexapod_control" type="my_hexapod_controller" output="screen"/>
+
+
+</launch>

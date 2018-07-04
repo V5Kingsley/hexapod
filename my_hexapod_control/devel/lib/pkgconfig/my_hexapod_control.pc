@@ -1,0 +1,8 @@
+prefix=/home/sun/hexapod_ws/src/my_hexapod_control/devel
+
+Name: my_hexapod_control
+Description: Description of my_hexapod_control
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/sun/hexapod_ws/src/my_hexapod_control/devel/lib 
+Requires: 

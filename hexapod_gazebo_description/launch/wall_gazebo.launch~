@@ -1,0 +1,7 @@
+<launch>
+
+<param name="robot_description" command="$(find hexapod_gazebo_description)/urdf/wall.urdf"/>
+
+<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model wall"/>
+
+</launch>

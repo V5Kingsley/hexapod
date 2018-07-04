@@ -1,0 +1,36 @@
+[Buildset]
+BuildItems=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x01\x00\x00\x00$\x00m\x00y\x00_\x00h\x00e\x00x\x00a\x00p\x00o\x00d\x00_\x00c\x00o\x00n\x00t\x00r\x00o\x00l)
+
+[CMake]
+Build Directory Count=1
+Current Build Directory Index=0
+ProjectRootRelative=./
+
+[CMake][CMake Build Directory 0]
+Build Directory Path=file:///home/sun/hexapod_ws/src/my_hexapod_control/build
+Build Type=Debug
+CMake Binary=file:///usr/bin/cmake
+Environment Profile=
+Extra Arguments=-DCATKIN_DEVEL_PREFIX=../devel -DCMAKE_INSTALL_PREFIX=../install\s
+Install Directory=file:///home/sun/hexapod_ws/src/my_hexapod_control/install
+
+[Launch]
+Launch Configurations=Launch Configuration 0
+
+[Launch][Launch Configuration 0]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=新建 应用程序 启动器
+Type=Native Application
+
+[Launch][Launch Configuration 0][Data]
+Arguments=
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x00)
+Dependency Action=Nothing
+EnvironmentGroup=default
+Executable=file:///home/sun/hexapod_ws/src/my_hexapod_control/
+External Terminal=konsole --noclose --workdir %workdir -e %exe
+Project Target=my_hexapod_control,my_hexapod_controller
+Use External Terminal=false
+Working Directory=
+isExecutable=false

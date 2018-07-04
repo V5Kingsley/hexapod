@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/sun/hexapod_ws/src/my_hexapod_control/install/setup.sh

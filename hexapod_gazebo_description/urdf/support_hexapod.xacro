@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<robot
+  xmlns:xacro="http://www.ros.org/wiki/xacro" name="support_hexapod">
+  <xacro:include filename="$(find hexapod_gazebo_description)/urdf/hexapod_gazebo.xacro" />
+  <xacro:include filename="$(find hexapod_gazebo_description)/urdf/support.urdf" />    
+
+
+<joint name="support" type="fixed">
+  <axis xyz="0 0 1"/>
+  <parent link="support_body"/>
+  <child link="base_link"/>
+  <origin rpy="0 0 0" xyz="0 0 0.4"/>
+</joint>
+
+
+</robot>

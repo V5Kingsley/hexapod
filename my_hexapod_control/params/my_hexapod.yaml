@@ -1,0 +1,85 @@
+# Configuration Settings
+
+# Non teleop mode for naviagtion stack, Gazebo, etc type modes.
+# Controller will still have standup and sitdown functions for safty reasons 
+NON_TELEOP: false
+
+# Speed limit in Hz for the master loop rate
+MASTER_LOOP_RATE: 25
+
+# Static time division to convert cmd_vel into segments for controller loop
+VELOCITY_DIVISION: 0.5
+
+# Twist Max Values
+# Currently these are set from a topic echo of the "twist" message coming out of the locomotion node.
+MAX_METERS_PER_SEC: 0.082
+MAX_RADIANS_PER_SEC: !degrees 17.629
+
+# Number of head segments
+# First segment would be yaw, second would be pitch
+NUMBER_OF_HEAD_SEGMENTS: 2
+
+# Number of Legs
+NUMBER_OF_LEGS: 6
+
+# Number of leg segments ( 3dof or 4dof )
+NUMBER_OF_LEG_SEGMENTS: 4
+
+# Define Initial Coxa Offsets in Radians ['RR', 'RM', 'RF', 'LR', 'LM', 'LF']
+# IK is solved in local space currently, hence the reason right and left have same angle offsets.
+INIT_COXA_ANGLE: [!degrees 30, !degrees 90, !degrees 150, !degrees -30, !degrees -90, !degrees -150]
+
+# Define distance in meters from coxa joint to the center ['RR', 'RM', 'RF', 'LR', 'LM', 'LF']
+# IK is solved in local space currently, hence the reason right and left have same distance values
+COXA_TO_CENTER_X: [0.15588, 0.0, -0.15588, 0.15588, 0.0, -0.15588]
+COXA_TO_CENTER_Y: [0.09, 0.18, 0.09, 0.09, 0.18, 0.09]
+
+# Define Start Position Of Feet in meters from the coxa joint ['RR', 'RM', 'RF', 'LR', 'LM', 'LF']
+# Middle Legs is coxa axis to foot in meters
+# math to find positions of front and back legs POS_Y = Middle leg start position * cos(45 degrees) (0.707)
+# math to find positions of front and back legs POS_X = Middle leg start position * sin(45 degrees) (0.707)
+# IK is solved in local space currently, hence the reason right and left have same distance values
+INIT_FOOT_POS_X: [0.20601878, 0.0, -0.20601878, 0.20601878, 0.0, -0.20601878]
+INIT_FOOT_POS_Y: [0.118945, 0.23789, 0.118945, 0.118945, 0.23789, 0.118945]
+INIT_FOOT_POS_Z: [0.321, 0.321, 0.321, 0.321, 0.321, 0.321]
+
+
+
+# Define Leg Measurements in meters
+COXA_LENGTH:   0.093
+FEMUR_LENGTH:  0.14489
+TIBIA_LENGTH:  0.164
+TARSUS_LENGTH: 0.157
+
+# Body FK maximum rotation
+BODY_MAX_ROLL: !degrees 8
+BODY_MAX_PITCH: !degrees 8
+
+# Body Standing Height
+STANDING_BODY_HEIGHT: 0.09
+
+# Head FK maximum rotation
+HEAD_MAX_YAW: !degrees 55
+HEAD_MAX_PITCH: !degrees 25
+
+# Body auto levelling parameters
+MAX_BODY_ROLL_COMP: !degrees 12
+MAX_BODY_PITCH_COMP: !degrees 12
+COMPENSATE_INCREMENT: !degrees 0.01
+COMPENSATE_TO_WITHIN: !degrees 1
+
+# Gait Settings
+CYCLE_LENGTH: 50
+#LEG_LIFT_HEIGHT: 0.038
+#MAX_LIFT_HEIGHT: 0.050
+LEG_LIFT_HEIGHT: 0.05
+MAX_LIFT_HEIGHT: 0.07
+
+# Leg gait order (grouping) ['RR', 'RM', 'RF', 'LR', 'LM', 'LF']
+LEG_GAIT_ORDER: [0, 1, 0, 1, 0, 1]
+
+# Speed in Hz that the servos interpolate between gait poses
+INTERPOLATION_LOOP_RATE: 50
+
+
+STICK_FORCE: 3000

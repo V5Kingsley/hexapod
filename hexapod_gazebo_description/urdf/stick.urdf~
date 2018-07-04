@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<robot 
+     xmlns:xacro="http://www.ros.org/wiki/xacro" name="stick">
+
+<gui>
+  <plugin name="cessna_keyboard" filename="libCessnaGUIPlugin.so"/>
+    </gui>
+
+
+<link name="support_body">
+  
+<visual>
+      <origin xyz="0 0 0.2" rpy="0 0 0"/>
+   <geometry>
+     <cylinder length="0.1" radius="0.4"/>
+   </geometry>
+   <material name="black">
+     <color rgba="0 0 0 100"/>
+   </material>
+  </visual>
+   
+ <collision>
+      <origin xyz="0 0 0.2" rpy="0 0 0"/>
+      <geometry>
+     <cylinder length="0.4" radius="0.1"/>
+      </geometry>
+    </collision>
+
+<inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="10"/>
+      <inertia
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
+    </inertial>
+</link>
+  <gazebo reference="support_body">
+    <material>Gazebo/Blue</material>
+    <mu1 value="2000"/>
+    <mu2 value="2000"/>
+  </gazebo>
+
+<plugin name="lifting_surface" filename="libLiftDragPlugin.so">
+
+        <!-- taken from the lift curve figure -->
+        <!-- alpha_0 is 5 degrees -->
+        <a0>0.08727</a0>
+        <!-- alpha_stall is 19.3 degrees -->
+        <alpha_stall>0.3368</alpha_stall>
+        <!-- slope of the lift curve to the left of the stall angle -->
+        <cla>5.418</cla>
+        <!-- slope of the lift curve to the right of the stall angle -->
+        <cla_stall>-2.1419</cla_stall>
+
+        <!-- below are just random values in this example -->
+        <cda>0.0</cda>
+        <cda_stall>0.0</cda_stall>
+        <cma>0.0</cma>
+        <cma_stall>0.0</cma_stall>
+        <area>3</area>
+        <fluid_density>1.2041</fluid_density>
+        <forward>-1 0 0</forward>
+        <upward>0 -1 0</upward>
+        <cp>0 0 1</cp>
+        <link_name>suport_body</link_name>
+        <radial_symmetry>false</radial_symmetry>
+      </plugin>
+</robot>

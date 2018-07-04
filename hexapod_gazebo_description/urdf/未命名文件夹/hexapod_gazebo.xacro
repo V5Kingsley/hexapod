@@ -1,0 +1,466 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="hexapod">
+
+  <xacro:property name="M_PI" value="3.1415926535897931"/>
+  <xacro:property name="gen3" value="1.7320508075689"/>
+
+  <xacro:property name="bodyradius" value="0.1800"/>
+  <xacro:property name="bodylength" value="0.1000"/>
+  <xacro:property name="bodymass" value="3"/>
+
+
+  <xacro:property name="rolllength" value="0.093"/>
+  <xacro:property name="rollradius" value="0.03"/>  
+  <xacro:property name="rollmass" value="${rolllength*5}"/>
+
+  <xacro:property name="pitch1length" value="0.14489"/>
+  <xacro:property name="pitch1radius" value="0.03"/>
+  <xacro:property name="pitch1mass" value="${pitch1length*5}"/>
+
+  <xacro:property name="pitch2length" value="0.164"/>
+  <xacro:property name="pitch2radius" value="0.03"/>
+  <xacro:property name="pitch2mass" value="${pitch2length*5}"/>
+
+  <xacro:property name="pitch3length" value="0.157"/>
+  <xacro:property name="pitch3radius" value="0.03"/>
+  <xacro:property name="pitch3mass" value="${pitch3length*5}"/>
+  
+  <xacro:property name="sticklength" value="0.01"/>
+  <xacro:property name="stickradius" value="0.1"/>
+  <xacro:property name="stickmass" value="1"/>
+
+  <xacro:property name="damping" value="1"/>
+
+ 
+
+
+<link name="base_link">
+  <visual>
+   <geometry>
+      <box size="0.01 0.01 0.01"/>
+   </geometry>
+   <material name="black">
+     <color rgba="0 0 0 100"/>
+   </material>
+  </visual>
+</link>
+
+<!--body-->
+<link name="body">
+<visual>
+   <geometry>
+     <cylinder length="${bodylength}" radius="${bodyradius}"/>
+   </geometry>
+   <material name="Red">
+     <color rgba="255 0 0 100"/>
+   </material>
+  </visual>
+   
+ <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+     <cylinder length="${bodylength}" radius="${bodyradius}"/>
+      </geometry>
+    </collision>
+
+<inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="${bodymass}"/>
+      <inertia
+        ixx="0" ixy="0.0" ixz="0.0"
+        iyy="0" iyz="0.0"
+        izz="0"/>
+    </inertial>
+</link>
+  <gazebo reference="body">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+<joint name="body" type="fixed">
+  <axis xyz="0 0 1"/>
+  <parent link="base_link"/>
+  <child link="body"/>
+  <origin rpy="0 0 0" xyz="0 0 0"/>
+</joint>
+
+
+  <xacro:macro name="leg" params="leg r p ry x y">
+
+<link name="${leg}_roll">
+  <visual>
+    <origin xyz="${rolllength/2} 0 0" rpy="0 ${M_PI/2} 0"/>
+    <geometry>
+      <cylinder length="${rolllength}" radius="${rollradius}"/>
+    </geometry>
+    <material name="Black">
+      <color rgba="0 0 0 1"/>
+    </material>
+  </visual>
+  <inertial>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="${rollmass}"/>
+      <inertia
+        ixx="${0.5*rollmass*rollradius*rollradius}" ixy="0.0" ixz="0.0"
+        iyy="${(3*rollmass*rollradius*rollradius+4*rollmass*rolllength*rolllength)/12}" iyz="0.0"
+        izz="${(3*rollmass*rollradius*rollradius+4*rollmass*rolllength*rolllength)/12}"/>
+    </inertial>
+  <collision>
+    <origin xyz="${rolllength/2} 0 0" rpy="0 ${M_PI/2} 0"/>
+    <geometry>
+      <cylinder length="${rolllength}" radius="${rollradius}"/>
+    </geometry>
+  </collision>
+</link>
+  <gazebo reference="${leg}_roll">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+<joint name="${leg}_roll" type="revolute">
+  <axis xyz="0 0 1"/>
+  <limit effort="300" lower="-${M_PI/4}" upper="${M_PI/4}" velocity="1"/>
+  <dynamics damping="${damping}"/>
+  <parent link="body"/>
+  <child link="${leg}_roll"/>
+  <origin rpy="${r} ${p} ${ry}" xyz="${x} ${y} 0"/>
+</joint>
+
+
+
+<link name="${leg}_pitch1">
+  <visual>
+    <origin xyz="${pitch1length/2} 0 0" rpy="0 ${M_PI/2} 0"/>
+    <geometry>
+      <cylinder length="${pitch1length}" radius="${pitch1radius}"/>
+    </geometry>
+    <material name="Red">
+      <color rgba="255 0 0 1"/>
+    </material>
+  </visual>
+ <inertial>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="${pitch1mass}"/>
+      <inertia
+        ixx="${0.5*pitch1mass*pitch1radius*pitch1radius}" ixy="0.0" ixz="0.0"
+        iyy="${(3*pitch1mass*pitch1radius*pitch1radius+4*pitch1mass*pitch1length*pitch1length)/12}" iyz="0.0"
+        izz="${(3*pitch1mass*pitch1radius*pitch1radius+4*pitch1mass*pitch1length*pitch1length)/12}"/>
+    </inertial>
+  <collision>
+    <origin xyz="${pitch1length/2} 0 0" rpy="0 ${M_PI/2} 0"/>
+    <geometry>
+      <cylinder length="${pitch1length}" radius="${pitch1radius}"/>
+    </geometry>
+  </collision>
+</link>
+  <gazebo reference="${leg}_pitch1">
+    <material>Gazebo/Red</material>
+  </gazebo>
+<joint name="${leg}_pitch1" type="revolute">
+  <axis xyz="0 0 1"/>
+  <limit effort="300" lower="-${M_PI/3*2}" upper="${M_PI/2}" velocity="1"/>
+  <dynamics damping="${damping}"/>
+  <parent link="${leg}_roll"/>
+  <child link="${leg}_pitch1"/>
+  <origin rpy="${M_PI/2} 0 0" xyz="${rolllength} 0 0"/>
+</joint>
+
+<link name="${leg}_pitch2">
+  <visual>
+    <origin xyz="${pitch2length/2} 0 0" rpy="${M_PI/2} 0 ${M_PI/2}"/>
+    <geometry>
+      <cylinder length="${pitch2length}" radius="${pitch2radius}"/>
+    </geometry>
+    <material name="black">
+      <color rgba="0 0 0 1"/>
+    </material>
+  </visual>
+ <inertial>
+    <origin xyz="${pitch2length} 0 0" rpy="0 0 0"/>
+      <mass value="${pitch2mass}"/>
+      <inertia
+        ixx="${0.5*pitch2mass*pitch2radius*pitch2radius}" ixy="0.0" ixz="0.0"
+        iyy="${(3*pitch2mass*pitch2radius*pitch2radius+4*pitch2mass*pitch2length*pitch2length)/12}" iyz="0.0"
+        izz="${(3*pitch2mass*pitch2radius*pitch2radius+4*pitch2mass*pitch2length*pitch2length)/12}"/>
+    </inertial>
+  <collision>
+    <origin xyz="${pitch2length/2} 0 0" rpy="${M_PI/2} 0 ${M_PI/2}"/>
+    <geometry>
+      <cylinder length="${pitch2length}" radius="${pitch2radius}"/>
+    </geometry>
+  </collision>
+</link>
+  <gazebo reference="${leg}_pitch2">
+    <material>Gazebo/Black</material>
+    <mu1 value="200"/>
+    <mu2 value="200"/>
+  </gazebo>
+<joint name="${leg}_pitch2" type="revolute">
+  <axis xyz="0 0 1"/>
+  <limit effort="300" lower="-${M_PI/3}" upper="${M_PI/2}" velocity="1"/>
+  <dynamics damping="${damping}"/>
+  <parent link="${leg}_pitch1"/>
+  <child link="${leg}_pitch2"/>
+  <origin rpy="0 0 -${M_PI/2}" xyz="${pitch1length} 0 0"/>
+</joint>
+
+<link name="${leg}_pitch3">
+  <visual>
+    <origin xyz="${pitch3length/2} 0 0" rpy="${M_PI/2} 0 ${M_PI/2}"/>
+    <geometry>
+      <cylinder length="${pitch3length}" radius="${pitch3radius}"/>
+    </geometry>
+    <material name="Red">
+      <color rgba="255 0 0 1"/>
+    </material>
+  </visual>
+ <inertial>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="${pitch3mass}"/>
+      <inertia
+        ixx="${0.5*pitch3mass*pitch3radius*pitch3radius}" ixy="0.0" ixz="0.0"
+        iyy="${(3*pitch3mass*pitch3radius*pitch3radius+4*pitch3mass*pitch3length*pitch3length)/12}" iyz="0.0"
+        izz="${(3*pitch3mass*pitch3radius*pitch3radius+4*pitch3mass*pitch3length*pitch3length)/12}"/>
+    </inertial>
+  <collision>
+    <origin xyz="${pitch3length/2} 0 0" rpy="${M_PI/2} 0 ${M_PI/2}"/>
+    <geometry>
+      <cylinder length="${pitch3length}" radius="${pitch3radius}"/>
+    </geometry>
+  </collision>
+</link>
+  <gazebo reference="${leg}_pitch3">
+    <material>Gazebo/Red</material>
+    <mu1 value="200"/>
+    <mu2 value="200"/>
+  </gazebo>
+<joint name="${leg}_pitch3" type="revolute">
+  <axis xyz="0 0 1"/>
+  <limit effort="300" lower="-${M_PI/3}" upper="${M_PI/2}" velocity="1"/>
+  <dynamics damping="${damping}"/>
+  <parent link="${leg}_pitch2"/>
+  <child link="${leg}_pitch3"/>
+  <origin rpy="0 0 0" xyz="${pitch2length} 0 0"/>
+</joint>
+
+<!--stick-->
+
+<link name="${leg}_stick1">
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <cylinder length="0.01" radius="0.01"/>
+    </geometry>
+    <material name="yellow">
+      <color rgba="255 255 0 1"/>
+    </material>
+  </visual>
+ <inertial>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="${stickmass}"/>
+      <inertia
+        ixx="${(3*stickmass*stickradius*stickradius+4*stickmass*sticklength*sticklength)/12}" ixy="0.0" ixz="0.0"
+        iyy="${(3*stickmass*stickradius*stickradius+4*stickmass*sticklength*sticklength)/12}" iyz="0.0"
+        izz="${0.5*stickmass*stickradius*stickradius}"/>
+    </inertial>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <cylinder length="0.01" radius="0.01"/>
+    </geometry>
+  </collision>
+</link>
+<joint name="${leg}_stick1" type="revolute">
+  <limit effort="300" lower="-${M_PI/7}" upper="${M_PI/7}" velocity="1"/>
+  <dynamics damping="${damping}"/>
+  <axis xyz="1 0 0"/>
+  <parent link="${leg}_pitch3"/>
+  <child link="${leg}_stick1"/>
+  <origin rpy="0 ${M_PI/2} 0" xyz="${pitch2length+sticklength/2} 0 0"/>
+</joint>
+  <gazebo reference="${leg}_stick1">
+    <material>Gazebo/Black</material>
+    <mu1 value="10000"/>
+    <mu2 value="10000"/>
+  </gazebo>
+
+<link name="${leg}_stick3">
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <cylinder length="${sticklength}" radius="${stickradius}"/>
+    </geometry>
+    <material name="Black">
+      <color rgba="0 0 0 1"/>
+    </material>
+  </visual>
+ <inertial>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="${stickmass}"/>
+      <inertia
+        ixx="${(3*stickmass*stickradius*stickradius+4*stickmass*sticklength*sticklength)/12}" ixy="0.0" ixz="0.0"
+        iyy="${(3*stickmass*stickradius*stickradius+4*stickmass*sticklength*sticklength)/12}" iyz="0.0"
+        izz="${0.5*stickmass*stickradius*stickradius}"/>
+    </inertial>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <cylinder length="${sticklength}" radius="${stickradius}"/>
+    </geometry>
+  </collision>
+</link>
+<joint name="${leg}_stick3" type="revolute">
+  <limit effort="300" lower="-${M_PI/7}" upper="${M_PI/7}" velocity="1"/>
+  <dynamics damping="${damping}"/>
+  <axis xyz="0 1 0"/>
+  <parent link="${leg}_stick1"/>
+  <child link="${leg}_stick3"/>
+  <origin rpy="0 0 0" xyz="0 0 0"/>
+</joint>
+  <gazebo reference="${leg}_stick3">
+    <material>Gazebo/Black</material>
+    <mu1 value="10000"/>
+    <mu2 value="10000"/>
+  </gazebo>
+
+<!--<link name="${leg}_stick3">
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <cylinder length="${sticklength}" radius="${stickradius}"/>
+    </geometry>
+    <material name="Black">
+      <color rgba="0 0 0 1"/>
+    </material>
+  </visual>
+ <inertial>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="${stickmass}"/>
+      <inertia
+        ixx="${(3*stickmass*stickradius*stickradius+4*stickmass*sticklength*sticklength)/12}" ixy="0.0" ixz="0.0"
+        iyy="${(3*stickmass*stickradius*stickradius+4*stickmass*sticklength*sticklength)/12}" iyz="0.0"
+        izz="${0.5*stickmass*stickradius*stickradius}"/>
+    </inertial>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <cylinder length="${sticklength}" radius="${stickradius}"/>
+    </geometry>
+  </collision>
+</link>
+<joint name="${leg}_stick3" type="revolute">
+  <limit effort="300" lower="-${M_PI/7}" upper="${M_PI/7}" velocity="1"/>
+  <dynamics damping="${damping}"/>
+  <axis xyz="0 1 0"/>
+  <parent link="${leg}_stick2"/>
+  <child link="${leg}_stick3"/>
+  <origin rpy="0 0 0" xyz="0 0 0"/>
+</joint>
+  <gazebo reference="${leg}_stick3">
+    <material>Gazebo/Black</material>
+    <mu1 value="100000"/>
+    <mu2 value="100000"/>
+  </gazebo>-->
+
+
+<!--motor-->
+<transmission name="${leg}_tran1">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="${leg}_roll">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="${leg}_motor1">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+<transmission name="${leg}_tran2">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="${leg}_pitch1">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="${leg}_motor2">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+<transmission name="${leg}_tran3">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="${leg}_pitch2">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="${leg}_motor3">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+<transmission name="${leg}_tran4">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="${leg}_pitch3">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="${leg}_motor4">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+<transmission name="${leg}_tran5">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="${leg}_stick1">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="${leg}_motor5">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+<transmission name="${leg}_tran6">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="${leg}_stick3">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="${leg}_motor6">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+<!--<transmission name="${leg}_tran7">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="${leg}_stick3">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="${leg}_motor7">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>-->
+
+
+  <gazebo>
+     <plugin name="joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so">
+       <jointName>${leg}_roll, ${leg}_pitch1, ${leg}_pitch2,${leg}_pitch3</jointName>
+     </plugin>
+  </gazebo>
+</xacro:macro>
+
+
+
+  <gazebo>
+     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+       <robotNamespace>/hexapod</robotNamespace>
+     </plugin>
+  </gazebo>
+
+<xacro:leg leg="leg1" r="0" p="0" ry="${M_PI/6}" x="${bodyradius/2*gen3}" y="${bodyradius/2}"/>
+<xacro:leg leg="leg2" r="0" p="0" ry="${M_PI/2}" x="0" y="${bodyradius}"/>
+<xacro:leg leg="leg3" r="0" p="0" ry="${M_PI/6*5}" x="-${bodyradius/2*gen3}" y="${bodyradius/2}"/>
+<xacro:leg leg="leg6" r="0" p="0" ry="-${M_PI/6*5}" x="-${bodyradius/2*gen3}" y="-${bodyradius/2}"/>
+<xacro:leg leg="leg5" r="0" p="0" ry="-${M_PI/2}" x="0" y="-${bodyradius}"/>
+<xacro:leg leg="leg4" r="0" p="0" ry="-${M_PI/6}" x="${bodyradius/2*gen3}" y="-${bodyradius/2}"/>
+
+
+
+
+</robot>

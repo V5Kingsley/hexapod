@@ -1,0 +1,73 @@
+
+
+hexapod:
+  # Publish all joint states -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50  
+  
+  
+  # leg1 Position Controllers ---------------------------------------
+  pid: &pid
+    p: 2000
+    i: 1.0
+    d: 0.01
+    i_clamp_min: -10.0
+    i_clamp_max: 10.0
+
+  leg1_joint_position_controller:
+    type: position_controllers/JointGroupPositionController
+    joints: 
+      - leg1_roll
+      - leg1_pitch1
+      - leg1_pitch2
+
+
+
+  leg2_joint_position_controller:
+    type: position_controllers/JointGroupPositionController
+    joints: 
+      - leg2_roll
+      - leg2_pitch1
+      - leg2_pitch2
+      - leg2_pitch3
+
+
+  leg3_joint_position_controller:
+    type: position_controllers/JointGroupPositionController
+    joints: 
+      - leg3_roll
+      - leg3_pitch1
+      - leg3_pitch2
+      - leg3_pitch3
+
+
+
+  leg4_joint_position_controller:
+    type: position_controllers/JointGroupPositionController
+    joints: 
+      - leg4_roll
+      - leg4_pitch1
+      - leg4_pitch2
+      - leg4_pitch3
+
+
+  leg5_joint_position_controller:
+    type: position_controllers/JointGroupPositionController
+    joints: 
+      - leg5_roll
+      - leg5_pitch1
+      - leg5_pitch2
+      - leg5_pitch3
+
+
+  leg6_joint_position_controller:
+    type: position_controllers/JointGroupPositionController
+    joints: 
+      - leg6_roll
+      - leg6_pitch1
+      - leg6_pitch2
+      - leg6_pitch3
+
+
+
