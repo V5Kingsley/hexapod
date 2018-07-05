@@ -24,16 +24,25 @@ void Gait::cyclePeriod( const geometry_msgs::Pose2D &base, hexapod_msgs::FeetPos
     if (cycle_period_ == 0)
     {
       period_distance = 0;
+      period_height = 0;
+      
     }
     else
     {
       period_distance = -cos( 0.5 * cycle_period_*PI/CYCLE_LENGTH );  //每条腿PI/CYCLE_LENGTH时间的步幅
+      period_height = 0.5 * sin( cycle_period_*PI/CYCLE_LENGTH ); //摆动腿PI/CYCLE_LENGTH时间抬起的高度
     }
-    period_height = 0.5 * sin( cycle_period_*PI/CYCLE_LENGTH ); //摆动腿PI/CYCLE_LENGTH时间抬起的高度
   }
-    if (stop_cycle_start == 0)
+  
+    if (stop_cycle_start == 0 && start_cycle == 0)
   {
     period_distance = -cos( cycle_period_*PI/CYCLE_LENGTH );  //每条腿PI/CYCLE_LENGTH时间的步幅
+    period_height = sin( cycle_period_*PI/CYCLE_LENGTH ); //摆动腿PI/CYCLE_LENGTH时间抬起的高度
+  }
+  
+  if(start_cycle == 1)
+  {
+    period_distance = sin( 0.5 * cycle_period_*PI/CYCLE_LENGTH );  //每条腿PI/CYCLE_LENGTH时间的步幅
     period_height = 0.5 * sin( cycle_period_*PI/CYCLE_LENGTH ); //摆动腿PI/CYCLE_LENGTH时间抬起的高度
   }
 
@@ -66,6 +75,11 @@ void Gait::cyclePeriod( const geometry_msgs::Pose2D &base, hexapod_msgs::FeetPos
     stop_cycle_start = 0;
     stop_finished = 1;
   }
+  
+  if(start_cycle == 1 && cycle_period_ == (CYCLE_LENGTH - 1))
+  {
+    start_cycle = 0;
+  }
 }
  
 //摆动腿和支撑腿切换
@@ -81,6 +95,7 @@ void Gait::gaitCycle( const geometry_msgs::Twist &cmd_vel, hexapod_msgs::FeetPos
       stop_cycle_start = 1;
     }
   }
+  
   if (stop_cycle_ == 0 )
   {
     base.x = cmd_vel.linear.x ; 
@@ -88,13 +103,28 @@ void Gait::gaitCycle( const geometry_msgs::Twist &cmd_vel, hexapod_msgs::FeetPos
     base.theta = cmd_vel.angular.z ;
     stop_finished = 0;
   }
+  
+  if(smooth_base_.x == 0 && smooth_base_.y == 0 && smooth_base_.theta == 0)
+  {
+    start_cycle = 1;
+  }
+  
   }
 
-  
-  // Low pass filter on the values to avoid jerky movements due to rapid value changes
+  if (smooth_base_.x == 0 && smooth_base_.y == 0 && smooth_base_.theta == 0)
+  {
+    smooth_base_.x = base.x;
+    smooth_base_.y = base.y;
+    smooth_base_.theta = base.theta;
+  }
+  else
+  {
+// Low pass filter on the values to avoid jerky movements due to rapid value changes
     smooth_base_.x = base.x * 0.05 + ( smooth_base_.x * ( 1.0 - 0.05 ) );
     smooth_base_.y = base.y * 0.05 + ( smooth_base_.y * ( 1.0 - 0.05 ) );
     smooth_base_.theta = base.theta * 0.05 + ( smooth_base_.theta * ( 1.0 - 0.05 ) );
+  }
+    
     if (base.x == 0 && base.y == 0 && base.theta == 0)
     {
       smooth_base_.x = 0;

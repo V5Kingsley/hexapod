@@ -34,3 +34,6 @@ Project Target=my_hexapod_control,my_hexapod_controller
 Use External Terminal=false
 Working Directory=
 isExecutable=false
+
+[Project]
+VersionControlSupport=kdevgit

@@ -28,6 +28,7 @@ private:
   bool stop_cycle_;
   bool stop_cycle_start;
   bool stop_finished;
+  bool start_cycle;
   geometry_msgs::Pose2D base;
 
 }; 
