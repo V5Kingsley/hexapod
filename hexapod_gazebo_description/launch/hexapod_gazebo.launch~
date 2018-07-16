@@ -5,10 +5,18 @@
 <param name="robot_description" command="$(find xacro)/xacro.py '$(find hexapod_gazebo_description)/urdf/hexapod_gazebo.xacro'"/>
 
 
-<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model hexapod -z 4"/>
+<node name="spawn_hexapod_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model hexapod -z 4"/>
 
   <!-- Load joint controller configurations from YAML file to parameter server -->
   <rosparam file="$(find hexapod_gazebo_description)/control_config/hexapod_ctl_params.yaml" command="load"/>
+
+<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+    <param name="publish_frequency" type="double" value="5.0"/>
+  </node>
+
+
+<!--<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+  </node>-->
 
   <!--start up the controller plug-ins via the controller manager -->
 
@@ -16,9 +24,6 @@
  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
     output="screen" ns="/hexapod" args="joint_state_controller   leg1_roll_joint_position_controller leg1_pitch1_joint_position_controller leg1_pitch2_joint_position_controller leg1_pitch3_joint_position_controller leg2_roll_joint_position_controller leg2_pitch1_joint_position_controller leg2_pitch2_joint_position_controller leg2_pitch3_joint_position_controller leg3_roll_joint_position_controller leg3_pitch1_joint_position_controller leg3_pitch2_joint_position_controller leg3_pitch3_joint_position_controller leg4_roll_joint_position_controller leg4_pitch1_joint_position_controller leg4_pitch2_joint_position_controller leg4_pitch3_joint_position_controller leg5_roll_joint_position_controller leg5_pitch1_joint_position_controller leg5_pitch2_joint_position_controller leg5_pitch3_joint_position_controller  leg6_roll_joint_position_controller leg6_pitch1_joint_position_controller leg6_pitch2_joint_position_controller leg6_pitch3_joint_position_controller"/>
 
-<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
-    <param name="publish_frequency" type="double" value="5.0"/>
-  </node>
 
 
 

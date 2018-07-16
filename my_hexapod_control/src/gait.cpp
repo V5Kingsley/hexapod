@@ -7,7 +7,8 @@ Gait::Gait( void )
   ros::param::get( "LEG_LIFT_HEIGHT", LEG_LIFT_HEIGHT );
   ros::param::get( "LEG_GAIT_ORDER", cycle_leg_number_ );
   ros::param::get( "NUMBER_OF_LEGS", NUMBER_OF_LEGS );
-  cycle_period_=0;
+  cycle_period_= 0.0;
+  origin_period_ = 0;
   current_time_=ros::Time::now();
   last_time_=ros::Time::now();
   stop_cycle_ = 0;
@@ -69,14 +70,14 @@ void Gait::cyclePeriod( const geometry_msgs::Pose2D &base, hexapod_msgs::FeetPos
     }
   }
   
-  if ( stop_cycle_ == 1 && stop_cycle_start == 1 && cycle_period_ == 0)
+  if ( stop_cycle_ == 1 && stop_cycle_start == 1 && origin_period_ == 0)
   {
     stop_cycle_ = 0;
     stop_cycle_start = 0;
     stop_finished = 1;
   }
   
-  if(start_cycle == 1 && cycle_period_ == (CYCLE_LENGTH - 1))
+  if(start_cycle == 1 && origin_period_== (CYCLE_LENGTH - 1))
   {
     start_cycle = 0;
   }
@@ -90,7 +91,7 @@ void Gait::gaitCycle( const geometry_msgs::Twist &cmd_vel, hexapod_msgs::FeetPos
     if (cmd_vel.linear.x == 0 && cmd_vel.linear.y == 0 && cmd_vel.angular.z == 0 && stop_cycle_start == 0 && stop_finished == 0)
   {
     stop_cycle_ = 1;
-    if(cycle_period_ == 1)
+    if(origin_period_ == 1)
     {
       stop_cycle_start = 1;
     }
@@ -147,13 +148,20 @@ void Gait::gaitCycle( const geometry_msgs::Twist &cmd_vel, hexapod_msgs::FeetPos
     {
       //给下一个period/CYCLE_LENGTH足端歩幅
       cyclePeriod( smooth_base_, feet);
-      cycle_period_++;
+      origin_period_++;
+      cycle_period_ = -0.5 * CYCLE_LENGTH * cos(M_PI*origin_period_/CYCLE_LENGTH) + 0.5 * CYCLE_LENGTH;
+      ROS_INFO("cycle_period_:%f:", cycle_period_ );
+//       if(origin_period_==1)
+//       {
+// 	cycle_period_ = 1;
+//       }
     }
     
     //一个周期结束后更换摆动腿组和支撑腿组
-    if( cycle_period_==CYCLE_LENGTH )
+    if( origin_period_==CYCLE_LENGTH )
     {
-      cycle_period_=0;
+      cycle_period_= 0 ;
+      origin_period_ = 0;
       std::reverse( cycle_leg_number_.begin(), cycle_leg_number_.end() );
     } 
     

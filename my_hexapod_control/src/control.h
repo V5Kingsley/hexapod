@@ -29,7 +29,7 @@ class Control
 public:
   Control( void );
   void partitionCmd_vel( geometry_msgs::Twist *cmd_vel );  //把速度离散化？
-  void publishJointStates( const hexapod_msgs::LegsJoints &legs, int &cycle_period_, std::vector<int> &cycle_leg_number_, const hexapod_msgs::FeetPositions *feet); 
+  void publishJointStates( const hexapod_msgs::LegsJoints &legs, int &ori_period_, std::vector<int> &cycle_leg_number_, const hexapod_msgs::FeetPositions *feet); 
   void robotInit();
   int MASTER_LOOP_RATE;  // Master loop rate
   hexapod_msgs::Pose body_;    // Body link rotation,没有用到

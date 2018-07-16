@@ -33,3 +33,6 @@ add_library (my_control SHARED src/control.cpp)
 add_executable( my_hexapod_controller src/my_hexapod_controller.cpp)
 target_link_libraries( my_hexapod_controller ${catkin_LIBRARIES} my_gait my_ik my_control)
 
+#add_executable( odom_tf src/odom_transform.cpp)
+#target_link_libraries( odom_tf ${catkin_LIBRARIES})
+

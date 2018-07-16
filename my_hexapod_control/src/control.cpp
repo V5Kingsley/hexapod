@@ -64,7 +64,7 @@ void Control::robotInit()
 }
  
 
-void Control::publishJointStates( const hexapod_msgs::LegsJoints &legs, int &cycle_period_, std::vector<int> &cycle_leg_number_, const hexapod_msgs::FeetPositions *feet )
+void Control::publishJointStates( const hexapod_msgs::LegsJoints &legs, int &origin_period_, std::vector<int> &cycle_leg_number_, const hexapod_msgs::FeetPositions *feet )
 {
       for ( int leg_index=0; leg_index<NUMBER_OF_LEGS; leg_index++ )
   {
@@ -89,10 +89,10 @@ void Control::publishJointStates( const hexapod_msgs::LegsJoints &legs, int &cyc
 
 
 //   //吸盘吸附力控制
-  if ( cycle_period_ == 1 )
+  if ( origin_period_ == 1 )
   {
 
- /*    for ( int leg_index = 0; leg_index < NUMBER_OF_LEGS; leg_index++ )
+     for ( int leg_index = 0; leg_index < NUMBER_OF_LEGS; leg_index++ )
   {
 
      if (  cycle_leg_number_[leg_index] == 0)
@@ -100,7 +100,8 @@ void Control::publishJointStates( const hexapod_msgs::LegsJoints &legs, int &cyc
       srv.request.body_name = force_to_stick[leg_index];
       srv.request.reference_frame = force_to_stick[leg_index];
       srv.request.wrench.force.z = 0;
-      srv.request.duration.sec = 2;
+      srv.request.start_time.sec = 0;
+      srv.request.duration.sec = 100;
       force_client.call(srv);
      }  
      if (  cycle_leg_number_[leg_index] == 1 )
@@ -108,10 +109,11 @@ void Control::publishJointStates( const hexapod_msgs::LegsJoints &legs, int &cyc
       srv.request.body_name = force_to_stick[leg_index];
       srv.request.reference_frame = force_to_stick[leg_index];
       srv.request.wrench.force.z = - STICK_FORCE;
-      srv.request.duration.sec = 3;
+      srv.request.start_time.sec = 0;
+      srv.request.duration.sec = 100;
       force_client.call(srv);
     }
-  }*/
+  }
     ros::Duration(1).sleep(); 
   }
     

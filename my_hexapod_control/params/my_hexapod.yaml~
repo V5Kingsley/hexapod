@@ -27,7 +27,7 @@ NUMBER_OF_LEG_SEGMENTS: 4
 
 # Define Initial Coxa Offsets in Radians ['RR', 'RM', 'RF', 'LR', 'LM', 'LF']
 # IK is solved in local space currently, hence the reason right and left have same angle offsets.
-INIT_COXA_ANGLE: [!degrees 30, !degrees 90, !degrees 150, !degrees -30, !degrees -90, !degrees -150]
+INIT_COXA_ANGLE: [!degrees 30, !degrees 90, !degrees 150, !degrees -150, !degrees -90, !degrees -30]
 
 # Define distance in meters from coxa joint to the center ['RR', 'RM', 'RF', 'LR', 'LM', 'LF']
 # IK is solved in local space currently, hence the reason right and left have same distance values
@@ -82,4 +82,4 @@ LEG_GAIT_ORDER: [0, 1, 0, 1, 0, 1]
 INTERPOLATION_LOOP_RATE: 50
 
 
-STICK_FORCE: 3000
+STICK_FORCE: 1000
