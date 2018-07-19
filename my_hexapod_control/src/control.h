@@ -23,26 +23,27 @@
 #include <gazebo_msgs/ApplyBodyWrench.h>
 #include <string>
 #include <boost/format.hpp>
+#include <vector>
 
 class Control
 {
 public:
   Control( void );
   void partitionCmd_vel( geometry_msgs::Twist *cmd_vel );  //把速度离散化？
-  void publishJointStates( const hexapod_msgs::LegsJoints &legs, int &ori_period_, std::vector<int> &cycle_leg_number_, const hexapod_msgs::FeetPositions *feet); 
+  void publishJointStates( const hexapod_msgs::LegsJoints &legs, int &ori_period_, std::vector<int> &cycle_leg_number_, const hexapod_msgs::FeetPositions *feet, sensor_msgs::JointState *joint_state); 
   void robotInit();
   int MASTER_LOOP_RATE;  // Master loop rate
   hexapod_msgs::Pose body_;    // Body link rotation,没有用到
   hexapod_msgs::LegsJoints legs_; //各个关节的角度信息
   hexapod_msgs::FeetPositions feet_; //足端轨迹
   geometry_msgs::Twist cmd_vel_;
+  sensor_msgs::JointState joint_states_;
 private:
   double VELOCITY_DIVISION;
   int NUMBER_OF_LEGS;        // Number of legs
   int NUMBER_OF_LEG_JOINTS;  // Number of leg segments
   int STICK_FORCE; //吸盘吸附力大小
   geometry_msgs::Twist cmd_vel_incoming_;
-  int setup_;
   
   // 订阅速度信息
   ros::Subscriber cmd_vel_sub_;
@@ -68,6 +69,9 @@ private:
   gazebo_msgs::ApplyBodyWrench srv;
   
   ros::Publisher feet_position;
+  ros::Publisher joint_state_pub_;
+  std::vector<std::string> joint_name_;
+  
   
 };
 

@@ -120,10 +120,11 @@ void Gait::gaitCycle( const geometry_msgs::Twist &cmd_vel, hexapod_msgs::FeetPos
   }
   else
   {
-// Low pass filter on the values to avoid jerky movements due to rapid value changes
+  //Low pass filter on the values to avoid jerky movements due to rapid value changes
     smooth_base_.x = base.x * 0.05 + ( smooth_base_.x * ( 1.0 - 0.05 ) );
     smooth_base_.y = base.y * 0.05 + ( smooth_base_.y * ( 1.0 - 0.05 ) );
     smooth_base_.theta = base.theta * 0.05 + ( smooth_base_.theta * ( 1.0 - 0.05 ) );
+    
   }
     
     if (base.x == 0 && base.y == 0 && base.theta == 0)
@@ -150,11 +151,7 @@ void Gait::gaitCycle( const geometry_msgs::Twist &cmd_vel, hexapod_msgs::FeetPos
       cyclePeriod( smooth_base_, feet);
       origin_period_++;
       cycle_period_ = -0.5 * CYCLE_LENGTH * cos(M_PI*origin_period_/CYCLE_LENGTH) + 0.5 * CYCLE_LENGTH;
-      ROS_INFO("cycle_period_:%f:", cycle_period_ );
-//       if(origin_period_==1)
-//       {
-// 	cycle_period_ = 1;
-//       }
+
     }
     
     //一个周期结束后更换摆动腿组和支撑腿组

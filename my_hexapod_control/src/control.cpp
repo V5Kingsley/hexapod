@@ -7,11 +7,13 @@ Control::Control( void )
   ros::param::get( "MASTER_LOOP_RATE", MASTER_LOOP_RATE );
    ros::param::get( "VELOCITY_DIVISION", VELOCITY_DIVISION );
    ros::param::get( "STICK_FORCE", STICK_FORCE );
-   setup_ = 1;
+   ros::param::get("JOINT_NAME", joint_name_);
     // Topics we are subscribing
     cmd_vel_sub_ = nh_.subscribe<geometry_msgs::Twist>( "/cmd_vel", 1, &Control::cmd_velCallback, this );
     
     //发布的话题
+    joint_state_pub_ = nh_.advertise<sensor_msgs::JointState>("/joint_states", 1);
+    
     boost::format roll;
     boost::format pitch1;
     boost::format pitch2;
@@ -64,9 +66,9 @@ void Control::robotInit()
 }
  
 
-void Control::publishJointStates( const hexapod_msgs::LegsJoints &legs, int &origin_period_, std::vector<int> &cycle_leg_number_, const hexapod_msgs::FeetPositions *feet )
+void Control::publishJointStates( const hexapod_msgs::LegsJoints &legs, int &origin_period_, std::vector<int> &cycle_leg_number_, const hexapod_msgs::FeetPositions *feet, sensor_msgs::JointState *joint_state )
 {
-      for ( int leg_index=0; leg_index<NUMBER_OF_LEGS; leg_index++ )
+  for ( int leg_index=0; leg_index<NUMBER_OF_LEGS; leg_index++ )
   {
     leg_roll[leg_index].data = legs.leg[leg_index].coxa;
     leg_pitch1[leg_index].data = legs.leg[leg_index].femur;
@@ -75,20 +77,46 @@ void Control::publishJointStates( const hexapod_msgs::LegsJoints &legs, int &ori
   }
   
   //发布关节角度话题
-       for ( int leg_index = 0; leg_index < NUMBER_OF_LEGS; leg_index++  )
-       {
-	 leg_roll_p[leg_index].publish( leg_roll[leg_index] );
-	 leg_pitch1_p[leg_index].publish( leg_pitch1[leg_index] );
-	 leg_pitch2_p[leg_index].publish( leg_pitch2[leg_index] );
-	 leg_pitch3_p[leg_index].publish( leg_pitch3[leg_index] );
-      }
-      
-      feet_position.publish(*feet);
-      
-      
+  for ( int leg_index = 0; leg_index < NUMBER_OF_LEGS; leg_index++  )
+  {
+    leg_roll_p[leg_index].publish( leg_roll[leg_index] );
+    leg_pitch1_p[leg_index].publish( leg_pitch1[leg_index] );
+    leg_pitch2_p[leg_index].publish( leg_pitch2[leg_index] );
+    leg_pitch3_p[leg_index].publish( leg_pitch3[leg_index] );
+  }
+  feet_position.publish(*feet);
+  
+  joint_state->header.stamp = ros::Time::now();
+  int i = 0;
+  joint_state->name.resize(36);
+  joint_state->position.resize(36);  
+  for(int leg_index = 0; leg_index < NUMBER_OF_LEGS; leg_index++)
+  {
+   joint_state->name[i] = joint_name_[i];
+   joint_state->position[i] = legs.leg[leg_index].coxa;
+   i++;
+   joint_state->name[i] = joint_name_[i];
+   joint_state->position[i] = legs.leg[leg_index].femur;
+   i++;
+   joint_state->name[i] = joint_name_[i];
+   joint_state->position[i] = legs.leg[leg_index].tibia;
+   i++;
+   joint_state->name[i] = joint_name_[i];
+   joint_state->position[i] = legs.leg[leg_index].tarsus;
+   i++;
+   //吸盘
+   joint_state->name[i] = joint_name_[i];
+   joint_state->position[i] = 0;
+   i++;
+   //吸盘
+   joint_state->name[i] = joint_name_[i];
+   joint_state->position[i] = 0;
+   i++;
+  }
+  joint_state_pub_.publish(*joint_state);
+  
 
-
-//   //吸盘吸附力控制
+ /*  //吸盘吸附力控制
   if ( origin_period_ == 1 )
   {
 
@@ -115,7 +143,7 @@ void Control::publishJointStates( const hexapod_msgs::LegsJoints &legs, int &ori
     }
   }
     ros::Duration(1).sleep(); 
-  }
+  }*/
     
 }
 

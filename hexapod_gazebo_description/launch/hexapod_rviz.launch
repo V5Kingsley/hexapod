@@ -1,9 +1,9 @@
 <launch>
   <arg name="hexapod_model"/>
 <param name="robot_description" command="$(find xacro)/xacro.py '$(find hexapod_gazebo_description)/urdf/hexapod_gazebo.xacro'"/> 
-  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+  <!--<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
   <param name="/use_gui" value="true"/>
-  </node>
+  </node>-->
 
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
     <param name="publish_frequency" type="double" value="5.0"/>

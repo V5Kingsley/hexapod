@@ -22,7 +22,7 @@ int main (int argc, char **argv)
       control.partitionCmd_vel( &control.cmd_vel_ );
     gait.gaitCycle( control.cmd_vel_, &control.feet_); //周期步态
     ik.calculateIK( control.feet_, &control.legs_ ); //逆运动学求解关节角度
-    control.publishJointStates( control.legs_, gait.origin_period_, gait.cycle_leg_number_, &control.feet_); //发布关节角度话题
+    control.publishJointStates( control.legs_, gait.origin_period_, gait.cycle_leg_number_, &control.feet_, &control.joint_states_); //发布关节角度话题
     }
     else
     {

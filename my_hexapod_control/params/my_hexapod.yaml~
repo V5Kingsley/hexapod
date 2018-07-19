@@ -82,4 +82,16 @@ LEG_GAIT_ORDER: [0, 1, 0, 1, 0, 1]
 INTERPOLATION_LOOP_RATE: 50
 
 
-STICK_FORCE: 1000
+STICK_FORCE: 0
+
+JOINT_NAME: [
+    leg1_roll, leg1_pitch1, leg1_pitch2, leg1_pitch3, leg1_stick1, leg1_stick3, 
+    leg2_roll, leg2_pitch1, leg2_pitch2, leg2_pitch3, leg2_stick1, leg2_stick3, 
+    leg3_roll, leg3_pitch1, leg3_pitch2, leg3_pitch3, leg3_stick1, leg3_stick3, 
+    leg4_roll, leg4_pitch1, leg4_pitch2, leg4_pitch3, leg4_stick1, leg4_stick3, 
+    leg5_roll, leg5_pitch1, leg5_pitch2, leg5_pitch3, leg5_stick1, leg5_stick3, 
+    leg6_roll, leg6_pitch1, leg6_pitch2, leg6_pitch3, leg6_stick1, leg6_stick3
+]
+
+
+

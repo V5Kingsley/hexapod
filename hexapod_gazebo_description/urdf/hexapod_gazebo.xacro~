@@ -8,7 +8,7 @@
   <xacro:property name="bodylength" value="0.1000"/>
   <xacro:property name="bodymass" value="3"/>
 
-  <xacro:property name="bridgelength" value="0.1"/>
+  <xacro:property name="bridgelength" value="0.01"/>
   <xacro:property name="bridgeradius" value="0.03"/>  
   <xacro:property name="bridgemass" value="0.5"/>
 
@@ -83,7 +83,7 @@
   <axis xyz="0 0 1"/>
   <parent link="base_link"/>
   <child link="body"/>
-  <origin rpy="0 0 0" xyz="0 0 0"/>
+  <origin rpy="0 0 0" xyz="0 0 ${pitch2length+pitch3length+sticklength}"/>
 </joint>
 
 
