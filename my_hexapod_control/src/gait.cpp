@@ -38,8 +38,21 @@ void Gait::cyclePeriod( const geometry_msgs::Pose2D &base, hexapod_msgs::FeetPos
   
     if (stop_cycle_start == 0 && start_cycle == 0)
   {
-    period_distance = -cos( cycle_period_*PI/CYCLE_LENGTH );  //每条腿PI/CYCLE_LENGTH时间的步幅
-    period_height = sin( cycle_period_*PI/CYCLE_LENGTH ); //摆动腿PI/CYCLE_LENGTH时间抬起的高度
+    if(cycle_period_<=0.2*CYCLE_LENGTH)
+    {
+      period_distance = -1;
+      period_height = - 0.5 * cos( M_PI * cycle_period_ / (0.2 * CYCLE_LENGTH)) + 0.5;
+    }
+    else if(cycle_period_>=0.8*CYCLE_LENGTH)
+    {
+      period_distance = 1;
+      period_height = 0.5 * cos( M_PI * (cycle_period_-0.8*CYCLE_LENGTH) / (0.2*CYCLE_LENGTH) ) + 0.5;
+    }
+    else
+    {
+      period_distance = -cos( M_PI * (cycle_period_-0.2*CYCLE_LENGTH)/(0.6*CYCLE_LENGTH) );  //每条腿PI/CYCLE_LENGTH时间的步幅
+      period_height = 1;
+    }
   }
   
   if(start_cycle == 1)
