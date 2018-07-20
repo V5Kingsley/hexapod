@@ -19,6 +19,7 @@ public:
 private:
   void cyclePeriod( const geometry_msgs::Pose2D &base, hexapod_msgs::FeetPositions *feet);  //每条摆动腿和支撑腿一个周期内的步幅控制
   geometry_msgs::Pose2D smooth_base_;
+  geometry_msgs::Pose2D origin_base_;
   ros::Time current_time_, last_time_;
   int CYCLE_LENGTH;
   int NUMBER_OF_LEGS;
@@ -31,6 +32,7 @@ private:
   bool stop_finished;
   bool start_cycle;
   geometry_msgs::Pose2D base;
+  int vel_change_period;
 
 }; 
 
