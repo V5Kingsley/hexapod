@@ -14,6 +14,7 @@ Gait::Gait( void )
   stop_cycle_ = 0;
   stop_cycle_start = 0;
   stop_finished = 0;
+  vel_change_period = 0;
 }
 
 //每条摆动腿和支撑腿一个周期内的步幅控制
@@ -86,6 +87,7 @@ void Gait::cyclePeriod( const geometry_msgs::Pose2D &base, hexapod_msgs::FeetPos
 //摆动腿和支撑腿切换
 void Gait::gaitCycle( const geometry_msgs::Twist &cmd_vel, hexapod_msgs::FeetPositions *feet )
 {
+  
   if( (base.x - cmd_vel.linear.x) != 0 || (base.y - cmd_vel.linear.y) != 0 || (base.theta - cmd_vel.angular.z) != 0)
   {
     if (cmd_vel.linear.x == 0 && cmd_vel.linear.y == 0 && cmd_vel.angular.z == 0 && stop_cycle_start == 0 && stop_finished == 0)
@@ -121,10 +123,33 @@ void Gait::gaitCycle( const geometry_msgs::Twist &cmd_vel, hexapod_msgs::FeetPos
   else
   {
   //Low pass filter on the values to avoid jerky movements due to rapid value changes
-    smooth_base_.x = base.x * 0.05 + ( smooth_base_.x * ( 1.0 - 0.05 ) );
-    smooth_base_.y = base.y * 0.05 + ( smooth_base_.y * ( 1.0 - 0.05 ) );
-    smooth_base_.theta = base.theta * 0.05 + ( smooth_base_.theta * ( 1.0 - 0.05 ) );
+//     smooth_base_.x = base.x * 0.05 + ( smooth_base_.x * ( 1.0 - 0.05 ) );
+//     smooth_base_.y = base.y * 0.05 + ( smooth_base_.y * ( 1.0 - 0.05 ) );
+//     smooth_base_.theta = base.theta * 0.05 + ( smooth_base_.theta * ( 1.0 - 0.05 ) );
+
+    //用三角函数处理速度变化
+    if(std::abs(smooth_base_.x-base.x)>0.00001 || std::abs(smooth_base_.y-base.y)>0.00001 || std::abs(smooth_base_.y-base.y)>0.00001)
+    {
+      if (vel_change_period == 0)
+      {
+	origin_base_.x = smooth_base_.x; 
+	origin_base_.y = smooth_base_.y;
+	origin_base_.theta = smooth_base_.theta;
+      }
+      smooth_base_.x = - 0.5 * (base.x - origin_base_.x) * cos(M_PI*vel_change_period/(CYCLE_LENGTH)) + 0.5 * (base.x + origin_base_.x); 
+      
+      smooth_base_.y = - 0.5 * (base.y - origin_base_.y) * cos(M_PI*vel_change_period/(CYCLE_LENGTH)) + 0.5 * (base.y + origin_base_.y); 
+      
+      smooth_base_.theta = - 0.5 * (base.theta - origin_base_.theta) * cos(M_PI*vel_change_period/(CYCLE_LENGTH)) + 0.5 * (base.theta + origin_base_.theta); 
+      
+      vel_change_period++;
+    }
+    else
+    {
+      vel_change_period = 0;
+    }
     
+      
   }
     
     if (base.x == 0 && base.y == 0 && base.theta == 0)
