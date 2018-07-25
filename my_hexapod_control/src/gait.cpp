@@ -214,7 +214,8 @@ void Gait::gaitCycle( const geometry_msgs::Twist &cmd_vel, hexapod_msgs::FeetPos
       //给下一个period/CYCLE_LENGTH足端歩幅
       cyclePeriod( smooth_base_, feet);
       origin_period_++;
-      cycle_period_ = -0.5 * CYCLE_LENGTH * cos(M_PI*origin_period_/CYCLE_LENGTH) + 0.5 * CYCLE_LENGTH;
+//       cycle_period_ = -0.5 * CYCLE_LENGTH * cos(M_PI*origin_period_/CYCLE_LENGTH) + 0.5 * CYCLE_LENGTH;
+      cycle_period_++;
 
     }
     
