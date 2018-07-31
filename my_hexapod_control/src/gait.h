@@ -33,6 +33,7 @@ private:
   bool start_cycle;
   geometry_msgs::Pose2D base;
   int vel_change_period;
+  double period_seg;
 
 }; 
 

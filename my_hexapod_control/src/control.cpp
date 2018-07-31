@@ -116,7 +116,7 @@ void Control::publishJointStates( const hexapod_msgs::LegsJoints &legs, int &ori
   joint_state_pub_.publish(*joint_state);
   
 
- /*  //吸盘吸附力控制
+   //吸盘吸附力控制
   if ( origin_period_ == 1 )
   {
 
@@ -143,7 +143,7 @@ void Control::publishJointStates( const hexapod_msgs::LegsJoints &legs, int &ori
     }
   }
     ros::Duration(1).sleep(); 
-  }*/
+  }
     
 }
 

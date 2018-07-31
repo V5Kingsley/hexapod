@@ -15,6 +15,7 @@ Gait::Gait( void )
   stop_cycle_start = 0;
   stop_finished = 0;
   vel_change_period = 0;
+  period_seg = 0.3;
 }
 
 //每条摆动腿和支撑腿一个周期内的步幅控制
@@ -31,19 +32,19 @@ void Gait::cyclePeriod( const geometry_msgs::Pose2D &base, hexapod_msgs::FeetPos
     }
     else
     {
-      if(cycle_period_<=0.2*CYCLE_LENGTH)
+      if(cycle_period_<=period_seg*CYCLE_LENGTH)
     {
       period_distance = -1;
-      period_height = - 0.5 * cos( M_PI * cycle_period_ / (0.2 * CYCLE_LENGTH)) + 0.5;
+      period_height = - 0.5 * cos( M_PI * cycle_period_ / (period_seg * CYCLE_LENGTH)) + 0.5;
     }
-    else if(cycle_period_>=0.8*CYCLE_LENGTH)
+    else if(cycle_period_>=(1-period_seg)*CYCLE_LENGTH)
     {
       period_distance = 0;
-      period_height = 0.5 * cos( M_PI * (cycle_period_-0.8*CYCLE_LENGTH) / (0.2*CYCLE_LENGTH) ) + 0.5;
+      period_height = 0.5 * cos( M_PI * (cycle_period_-(1-period_seg)*CYCLE_LENGTH) / (period_seg*CYCLE_LENGTH) ) + 0.5;
     }
     else
     {
-      period_distance = - cos( 0.5 * M_PI * (cycle_period_-0.2*CYCLE_LENGTH)/(0.6*CYCLE_LENGTH) );  //每条腿PI/CYCLE_LENGTH时间的步幅
+      period_distance = - cos( 0.5 * M_PI * (cycle_period_-period_seg*CYCLE_LENGTH)/((1-2*period_seg)*CYCLE_LENGTH) );  //每条腿PI/CYCLE_LENGTH时间的步幅
       period_height = 1;
     }
     }
@@ -51,38 +52,38 @@ void Gait::cyclePeriod( const geometry_msgs::Pose2D &base, hexapod_msgs::FeetPos
   
     if (stop_cycle_start == 0 && start_cycle == 0)
   {
-    if(cycle_period_<=0.2*CYCLE_LENGTH)
+    if(cycle_period_<=period_seg*CYCLE_LENGTH)
     {
       period_distance = -1;
-      period_height = - 0.5 * cos( M_PI * cycle_period_ / (0.2 * CYCLE_LENGTH)) + 0.5;
+      period_height = - 0.5 * cos( M_PI * cycle_period_ / (period_seg * CYCLE_LENGTH)) + 0.5;
     }
-    else if(cycle_period_>=0.8*CYCLE_LENGTH)
+    else if(cycle_period_>=(1-period_seg)*CYCLE_LENGTH)
     {
       period_distance = 1;
-      period_height = 0.5 * cos( M_PI * (cycle_period_-0.8*CYCLE_LENGTH) / (0.2*CYCLE_LENGTH) ) + 0.5;
+      period_height = 0.5 * cos( M_PI * (cycle_period_ - (1-period_seg)*CYCLE_LENGTH) / (period_seg*CYCLE_LENGTH) ) + 0.5;
     }
     else
     {
-      period_distance = -cos( M_PI * (cycle_period_-0.2*CYCLE_LENGTH)/(0.6*CYCLE_LENGTH) );  //每条腿PI/CYCLE_LENGTH时间的步幅
+      period_distance = -cos( M_PI * (cycle_period_ - period_seg*CYCLE_LENGTH)/((1-2*period_seg)*CYCLE_LENGTH) );  //每条腿PI/CYCLE_LENGTH时间的步幅
       period_height = 1;
     }
   }
   
   if(start_cycle == 1)
   {
-    if(cycle_period_<=0.2*CYCLE_LENGTH)
+    if(cycle_period_<=period_seg*CYCLE_LENGTH)
     {
       period_distance = 0;
-      period_height = - 0.5 * cos( M_PI * cycle_period_ / (0.2 * CYCLE_LENGTH)) + 0.5;
+      period_height = - 0.5 * cos( M_PI * cycle_period_ / (period_seg * CYCLE_LENGTH)) + 0.5;
     }
-    else if(cycle_period_>=0.8*CYCLE_LENGTH)
+    else if(cycle_period_>=(1-period_seg)*CYCLE_LENGTH)
     {
       period_distance = 1;
-      period_height = 0.5 * cos( M_PI * (cycle_period_-0.8*CYCLE_LENGTH) / (0.2*CYCLE_LENGTH) ) + 0.5;
+      period_height = 0.5 * cos( M_PI * (cycle_period_-(1-period_seg)*CYCLE_LENGTH) / (period_seg*CYCLE_LENGTH) ) + 0.5;
     }
     else
     {
-      period_distance = sin( 0.5 * M_PI * (cycle_period_-0.2*CYCLE_LENGTH)/(0.6*CYCLE_LENGTH) );  //每条腿PI/CYCLE_LENGTH时间的步幅
+      period_distance = sin( 0.5 * M_PI * (cycle_period_-period_seg*CYCLE_LENGTH)/((1-2*period_seg)*CYCLE_LENGTH) );  //每条腿PI/CYCLE_LENGTH时间的步幅
       period_height = 1;
     }
   }
