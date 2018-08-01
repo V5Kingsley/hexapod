@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<robot name="hexapod_w_lidar" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find hexapod_gazebo_description)/urdf/hexapod_gazebo.xacro" />
+    <xacro:include filename="$(find hexapod_gazebo_description)/urdf/sensors/lidar_gazebo.xacro" />
+
+    <mbot_base/>
+
+    <!-- lidar -->
+    <joint name="lidar_joint" type="fixed">
+        <origin xyz="0 0 0.5" rpy="0 0 0" />
+        <parent link="base_link"/>
+        <child link="laser_link"/>
+    </joint>
+
+    <xacro:rplidar prefix="laser"/>
+
+    <mbot_base_gazebo/>
+
+</robot>

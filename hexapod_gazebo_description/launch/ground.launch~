@@ -1,0 +1,5 @@
+<launch>
+
+  
+
+<param name="robot_description" command="$(find xacro)/xacro.py '$(find hexapod_gazebo_description)/urdf/wall.xacro'"/>

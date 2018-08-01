@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<robot 
+     xmlns:xacro="http://www.ros.org/wiki/xacro" name="wall">
+
+
+<link name="world"/>
+
+<link name="wall">
+  <visual>
+   <origin xyz="0 0 5" rpy="0 0 0"/>
+   <geometry>
+     <cylinder length="10" radius="0.15"/>
+   </geometry>
+   <material name="black">
+     <color rgba="0 0 0 100"/>
+   </material>
+  </visual>
+ <collision>
+   <origin xyz="0 0 5" rpy="0 0 0"/>
+   <geometry>
+     <cylinder length="10" radius="0.15"/>
+   </geometry>
+    </collision>
+<inertial>
+      <origin xyz="0 0 5" rpy="0 0 0"/>
+      <mass value="1000"/>
+      <inertia
+        ixx="0" ixy="0.0" ixz="0.0"
+        iyy="0" iyz="0.0"
+        izz="0"/>
+    </inertial>
+</link>
+
+<joint name="wall_joint" type="fixed">
+  <parent link="world"/>
+  <child link="wall"/>
+  <origin xyz="2 0.0 0" rpy="0.0 0.0 0.0" />
+</joint>
+
+  <gazebo reference="wall">
+    <material>Gazebo/Red</material>
+    <mu1 value="1000000"/>
+    <mu2 value="1000000"/>
+  </gazebo>
+
+</robot>
